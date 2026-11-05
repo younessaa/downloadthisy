@@ -4,8 +4,8 @@
   <div class="container py-lg-4">
     <div class="row justify-content-center text-center">
       <div class="col-lg-8">
-        <h1 class="display-5 fw-bold mb-3">Download YouTube videos <span class="text-danger">in seconds</span></h1>
-        <p class="lead text-body-secondary mb-4">Paste a YouTube link below, choose a quality, and download as MP4, MP3 or M4A.</p>
+        <h1 class="display-5 fw-bold mb-3">Download YouTube videos and Instagram Reels <span class="text-danger">in seconds</span></h1>
+        <p class="lead text-body-secondary mb-4">Paste a YouTube or Instagram Reel link below, choose a quality, and download as MP4, MP3 or M4A.</p>
 
         {% if error %}
         <div class="alert alert-danger d-flex align-items-center gap-2 text-start" role="alert">
@@ -17,7 +17,7 @@
           <div class="input-group input-group-lg">
             <span class="input-group-text bg-body border-end-0"><i class="bi bi-link-45deg"></i></span>
             <input type="text" name="url" class="form-control border-start-0" id="urlInput"
-                   placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required autofocus>
+                   placeholder="Paste a YouTube or Instagram Reel link" autocomplete="off" required autofocus>
             <button class="btn btn-outline-secondary" type="button" id="pasteBtn" title="Paste from clipboard">
               <i class="bi bi-clipboard"></i>
             </button>

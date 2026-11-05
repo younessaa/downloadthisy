@@ -1,6 +1,6 @@
 # DownloadThisYouTube
 
-Download YouTube videos (MP4) and audio (MP3 / M4A). Built with Flask, yt-dlp and Bootstrap 5.
+Download YouTube videos and Instagram Reels (MP4) and audio (MP3 / M4A). Built with Flask, yt-dlp and Bootstrap 5.
 
 ## The URL trick
 
@@ -12,6 +12,17 @@ https://www.downloadthisyoutube.com/watch?v=gIu5iVuxehE
 ```
 
 `/shorts/<id>`, `/embed/<id>` and `/live/<id>` work too. You can also paste any YouTube link (including `youtu.be/...`) on the home page.
+
+## Instagram Reels
+
+Paste a public reel link on the home page, or swap the domain in the address bar:
+
+```
+https://www.instagram.com/reel/CDUMkliABpa/
+https://www.downloadthisyoutube.com/reel/CDUMkliABpa
+```
+
+`/reels/<code>`, `/p/<code>`, `/tv/<code>` and `/<user>/reel/<code>` links work too. Only public, single-video posts are supported: not private accounts, photos, carousels, stories or `instagram.com/share/...` links. Instagram limits anonymous requests, especially from datacenter IP addresses, so a public reel can still fail to load on a hosted server.
 
 ## Run locally
 
@@ -59,8 +70,9 @@ Update yt-dlp regularly (`pip install -U yt-dlp`), because YouTube changes often
 | Route | Purpose |
 |---|---|
 | `/` | Home page with the link form |
-| `/go?url=...` | Accepts any YouTube link and redirects to `/watch?v=ID` |
+| `/go?url=...` | Accepts a YouTube or Instagram link and redirects to its page |
 | `/watch?v=ID` | Video info and download options |
-| `/download?v=ID&f=KEY` | Builds the file and sends it. `KEY` is `v1080`, `v720`, …, `mp3` or `m4a` |
+| `/reel/CODE` | Instagram Reel info and download options |
+| `/download?site=SITE&v=ID&f=KEY` | Builds the file and sends it. `SITE` is `youtube` (default) or `instagram`. `KEY` is `v1080`, `v720`, …, `mp3` or `m4a` |
 
 Only download content you own or have permission to download.

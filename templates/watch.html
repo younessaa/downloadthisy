@@ -6,7 +6,7 @@
   <form action="{{ url_for('go') }}" method="get" class="mb-4">
     <div class="input-group">
       <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-      <input type="text" name="url" class="form-control" placeholder="Paste another YouTube link..." required>
+      <input type="text" name="url" class="form-control" placeholder="Paste another YouTube or Instagram link..." required>
       <button class="btn btn-danger" type="submit">Go</button>
     </div>
   </form>
@@ -18,18 +18,19 @@
   <div class="row g-4">
     <div class="col-lg-5">
       <div class="card border-0 shadow-sm overflow-hidden">
-        <div class="ratio ratio-16x9 bg-black">
-          <img src="{{ thumbnail }}" alt="Thumbnail" class="object-fit-cover">
+        <div class="ratio {{ 'ratio-1x1' if site == 'instagram' else 'ratio-16x9' }} bg-black">
+          <img src="{{ thumbnail }}" alt="Thumbnail" referrerpolicy="no-referrer"
+               class="{{ 'object-fit-contain' if site == 'instagram' else 'object-fit-cover' }}">
         </div>
         <div class="card-body">
           <h1 class="h5 fw-bold mb-2">{{ title }}</h1>
           <div class="d-flex flex-wrap gap-3 small text-body-secondary">
             {% if channel %}<span><i class="bi bi-person-circle"></i> {{ channel }}</span>{% endif %}
-            <span><i class="bi bi-clock"></i> {{ duration }}</span>
+            {% if duration %}<span><i class="bi bi-clock"></i> {{ duration }}</span>{% endif %}
             {% if views %}<span><i class="bi bi-eye"></i> {{ views|thousands }}</span>{% endif %}
           </div>
-          <a href="https://www.youtube.com/watch?v={{ video_id }}" target="_blank" rel="noopener"
-             class="btn btn-sm btn-outline-secondary mt-3"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+          <a href="{{ source_url }}" target="_blank" rel="noopener"
+             class="btn btn-sm btn-outline-secondary mt-3"><i class="bi bi-{{ site }}"></i> Watch on {{ site_name }}</a>
         </div>
       </div>
     </div>
@@ -71,7 +72,7 @@
                     <td class="d-none d-sm-table-cell text-body-secondary small">{{ o.size or '—' }}</td>
                     <td class="text-end">
                       <a class="btn btn-success btn-sm dl-btn"
-                         href="{{ url_for('download', v=video_id, f=o.key) }}">
+                         href="{{ url_for('download', site=site, v=video_id, f=o.key) }}">
                         <i class="bi bi-download"></i> Download
                       </a>
                     </td>
@@ -81,7 +82,7 @@
               </table>
             </div>
             {% else %}
-            <p class="text-body-secondary mb-0">No formats available.</p>
+            <p class="text-body-secondary mb-0">{{ 'This video has no audio track.' if tab_id == 'tabAudio' else 'No formats available.' }}</p>
             {% endif %}
           </div>
           {% endfor %}
