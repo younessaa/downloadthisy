@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero py-5">
+  <div class="container py-lg-4">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h1 class="display-5 fw-bold mb-3">Download YouTube videos <span class="text-danger">in seconds</span></h1>
+        <p class="lead text-body-secondary mb-4">Paste a YouTube link below, choose a quality, and download as MP4, MP3 or M4A.</p>
+
+        {% if error %}
+        <div class="alert alert-danger d-flex align-items-center gap-2 text-start" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i><div>{{ error }}</div>
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('go') }}" method="get" class="search-box shadow-sm" id="urlForm">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text bg-body border-end-0"><i class="bi bi-link-45deg"></i></span>
+            <input type="text" name="url" class="form-control border-start-0" id="urlInput"
+                   placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required autofocus>
+            <button class="btn btn-outline-secondary" type="button" id="pasteBtn" title="Paste from clipboard">
+              <i class="bi bi-clipboard"></i>
+            </button>
+            <button class="btn btn-danger px-4" type="submit">
+              <span class="d-none d-sm-inline">Download</span><i class="bi bi-arrow-right d-sm-none"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="card border-0 shadow-sm trick-card mb-5">
+    <div class="card-body p-4 p-lg-5 text-center">
+      <h2 class="h4 fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-warning"></i> The fastest way</h2>
+      <p class="text-body-secondary mb-4">While watching a video on YouTube, just add <strong>downloadthis</strong> before <strong>youtube.com</strong> in the address bar.</p>
+      <div class="url-demo mx-auto">
+        <div class="url-line"><i class="bi bi-youtube text-danger"></i> https://www.<span>youtube.com</span>/watch?v=gIu5iVuxehE</div>
+        <div class="my-2 text-body-secondary"><i class="bi bi-arrow-down"></i></div>
+        <div class="url-line"><i class="bi bi-download text-success"></i> https://www.<mark>downloadthis</mark><span>youtube.com</span>/watch?v=gIu5iVuxehE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="feature p-4 h-100">
+        <div class="feature-icon bg-danger-subtle text-danger mb-3"><i class="bi bi-film"></i></div>
+        <h3 class="h5 fw-bold">All qualities</h3>
+        <p class="text-body-secondary mb-0">From 144p up to 1080p, 2K and 4K when the video has it.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature p-4 h-100">
+        <div class="feature-icon bg-success-subtle text-success mb-3"><i class="bi bi-music-note-beamed"></i></div>
+        <h3 class="h5 fw-bold">Audio only</h3>
+        <p class="text-body-secondary mb-0">Grab just the sound as MP3 or M4A.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature p-4 h-100">
+        <div class="feature-icon bg-primary-subtle text-primary mb-3"><i class="bi bi-shield-check"></i></div>
+        <h3 class="h5 fw-bold">Free &amp; no signup</h3>
+        <p class="text-body-secondary mb-0">No account, no extensions, works on phone and desktop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

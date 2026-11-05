@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Download "{{ title }}" – DownloadThisYouTube{% endblock %}
+{% block content %}
+<div class="container py-4 py-lg-5">
+
+  <form action="{{ url_for('go') }}" method="get" class="mb-4">
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+      <input type="text" name="url" class="form-control" placeholder="Paste another YouTube link..." required>
+      <button class="btn btn-danger" type="submit">Go</button>
+    </div>
+  </form>
+
+  {% if request.args.get('error') %}
+  <div class="alert alert-warning"><i class="bi bi-exclamation-triangle"></i> {{ request.args.get('error') }}</div>
+  {% endif %}
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="ratio ratio-16x9 bg-black">
+          <img src="{{ thumbnail }}" alt="Thumbnail" class="object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h1 class="h5 fw-bold mb-2">{{ title }}</h1>
+          <div class="d-flex flex-wrap gap-3 small text-body-secondary">
+            {% if channel %}<span><i class="bi bi-person-circle"></i> {{ channel }}</span>{% endif %}
+            <span><i class="bi bi-clock"></i> {{ duration }}</span>
+            {% if views %}<span><i class="bi bi-eye"></i> {{ views|thousands }}</span>{% endif %}
+          </div>
+          <a href="https://www.youtube.com/watch?v={{ video_id }}" target="_blank" rel="noopener"
+             class="btn btn-sm btn-outline-secondary mt-3"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-body border-0 pt-3">
+          <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tabVideo" type="button">
+                <i class="bi bi-camera-video"></i> Video
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabAudio" type="button">
+                <i class="bi bi-music-note"></i> Audio
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body tab-content">
+          {% for tab_id, opts in [('tabVideo', video_opts), ('tabAudio', audio_opts)] %}
+          <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ tab_id }}">
+            {% if opts %}
+            <div class="table-responsive">
+              <table class="table align-middle mb-0">
+                <thead class="small text-body-secondary">
+                  <tr><th>Quality</th><th>Format</th><th class="d-none d-sm-table-cell">Size</th><th></th></tr>
+                </thead>
+                <tbody>
+                  {% for o in opts %}
+                  <tr>
+                    <td class="fw-semibold">
+                      {{ o.label }}
+                      {% if o.fps and o.fps > 30 %}<small class="text-body-secondary">{{ o.fps|int }}fps</small>{% endif %}
+                      {% if o.badge %}<span class="badge text-bg-danger ms-1">{{ o.badge }}</span>{% endif %}
+                    </td>
+                    <td><span class="badge text-bg-light border text-uppercase">{{ o.ext }}</span></td>
+                    <td class="d-none d-sm-table-cell text-body-secondary small">{{ o.size or '—' }}</td>
+                    <td class="text-end">
+                      <a class="btn btn-success btn-sm dl-btn"
+                         href="{{ url_for('download', v=video_id, f=o.key) }}">
+                        <i class="bi bi-download"></i> Download
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <p class="text-body-secondary mb-0">No formats available.</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+
+          {% if not has_ffmpeg %}
+          <p class="small text-body-secondary mt-3 mb-0">
+            <i class="bi bi-info-circle"></i> Install ffmpeg on the server to unlock 1080p+ and MP3.
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Preparing-download overlay -->
+<div class="modal fade" id="dlModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content text-center p-4">
+      <div class="spinner-border text-danger mx-auto mb-3" role="status"></div>
+      <h2 class="h6 fw-bold mb-1">Preparing your file…</h2>
+      <p class="small text-body-secondary mb-0">This can take a moment for long or HD videos. Your download will start automatically.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

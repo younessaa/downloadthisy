@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    container_name: downloadthisy
+    restart: unless-stopped   # starts again automatically with Docker Desktop
+    ports:
+      - "80:5000"     # http://downloadthisyoutube.com
+      - "5000:5000"   # http://127.0.0.1:5000

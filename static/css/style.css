@@ -1,0 +1,51 @@
+.brand-logo {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: .5rem;
+  background: var(--bs-danger);
+  color: #fff;
+}
+
+.hero {
+  background: radial-gradient(ellipse at top, rgba(var(--bs-danger-rgb), .08), transparent 70%);
+}
+
+.search-box .form-control:focus { box-shadow: none; }
+.search-box .input-group {
+  border-radius: .75rem;
+  overflow: hidden;
+}
+
+.trick-card { background: var(--bs-tertiary-bg); }
+
+.url-demo { max-width: 640px; }
+.url-line {
+  font-family: var(--bs-font-monospace);
+  font-size: .95rem;
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 2rem;
+  padding: .6rem 1rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.url-line mark {
+  background: rgba(var(--bs-success-rgb), .2);
+  color: var(--bs-success-text-emphasis);
+  font-weight: 700;
+  border-radius: .25rem;
+  padding: 0 .15rem;
+}
+
+.feature-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+}
+
+.table td, .table th { white-space: nowrap; }
